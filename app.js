@@ -6,13 +6,12 @@ var app = new Vue({
 
     // vars
     data: {
-        csvFile: null,
+        filename: '',
         fileAsArray: [],
-        detailsVisible: false
+        detailsVisible: true,
+        filetype: '',
+        headers: []
     },
-
-    // start here
-    mounted: function() {},
 
     // functions
     methods: {
@@ -21,13 +20,27 @@ var app = new Vue({
             this.$refs.myFiles.click()
         },
 
-        // grab file to use
         handleFiles: function() {
             if (window.FileReader) {
-                this.getAsText(this.$refs.myFiles.files[0])
+                this.filename = this.$refs.myFiles.value.split('\\')[this.$refs.myFiles.value.split('\\').length - 1]
+                this.fileAsArray = []
+                this.headers = []
+                if (this.filename.slice(-3) == 'csv') {
+                    this.filetype = 'csv'
+                    this.csvToJson()
+                }
+                else if (this.filename.slice(-4) == 'xlsx') {
+                    this.filetype = 'xlsx'
+                    this.excelToJson(this.$refs.myFiles.files[0])
+                }
             } else {
                 alert('FileReader is not supported in this browser.')
             }
+        },
+
+        // grab file to use
+        csvToJson: function() {
+            this.getAsText(this.$refs.myFiles.files[0])
         },
 
         // read file as text
@@ -64,6 +77,44 @@ var app = new Vue({
             if (evt.target.error.name == "NotReadableError") {
                 alert('Error reading file!')
             }
+        },
+
+        reset: function() {
+            this.filename = ''
+            this.fileAsArray = []
+            this.headers = []
+            this.filetype = ''
+        },
+
+        // xlsx file to json
+        excelToJson: function(file) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var data = e.target.result
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                })
+                workbook.SheetNames.forEach(function(sheetName) {
+                    // Here is your object
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    this.fileAsArray = XL_row_object
+                    for (var prop in this.fileAsArray[0]) {
+                        if (this.fileAsArray[0].hasOwnProperty(prop)) {
+                            this.headers.push({
+                                text: prop,
+                                value: prop
+                            })
+                        }
+                    }
+                }.bind(this))
+            }.bind(this)
+
+            reader.onerror = function(ex) {
+                console.log(ex);
+            };
+
+            reader.readAsBinaryString(file);
         }
     }
 })
