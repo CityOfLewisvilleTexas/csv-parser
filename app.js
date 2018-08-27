@@ -24,7 +24,6 @@ var app = new Vue({
             if (window.FileReader) {
                 this.filename = this.$refs.myFiles.value.split('\\')[this.$refs.myFiles.value.split('\\').length - 1]
                 this.fileAsArray = []
-                this.headers = []
                 if (this.filename.slice(-3) == 'csv') {
                     this.filetype = 'csv'
                     this.csvToJson()
@@ -84,6 +83,7 @@ var app = new Vue({
             this.fileAsArray = []
             this.headers = []
             this.filetype = ''
+            document.querySelector('#csvFileInput').value = ''
         },
 
         // xlsx file to json
