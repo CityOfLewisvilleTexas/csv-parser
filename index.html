@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Parser</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://metrics.cityoflewisville.com/assets/pmartin_dark.png" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" src="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <!-- <script type="text/javascript" src="./moment/moment.js"></script> -->
+</head>
+
+<body class="grey lighten-3">
+    <div id="app" v-cloak>
+        <v-app class="indigo">
+            <v-content>
+                <v-container>
+                    <v-layout row wrap>
+                        <v-flex xs12 mb-3>
+                            <div class="text-xs-center white--text">
+                                <v-flex class="title" mb-3>CSV Parser</v-flex>
+                                <v-btn flat @click="pickFile" dark>
+                                    <v-icon>attach_file</v-icon>
+                                    &nbsp;Select CSV
+                                </v-btn>
+                                <br>
+                                <v-btn flat dark v-if="fileAsArray.length>0" @click="detailsVisible = !detailsVisible">
+                                    <v-icon>list_alt</v-icon>
+                                    &nbsp;{{ detailsVisible ? 'Hide' : 'Show' }} Contents
+                                </v-btn>
+                            </div>
+                            <input style="display: none" type="file" id="csvFileInput" accept=".csv" ref="myFiles" @change="handleFiles" />
+                        </v-flex>
+                        <v-flex xs12 v-if="detailsVisible && fileAsArray.length>0">
+                            <v-card>
+                                <v-container>
+                                    <v-layout>
+                                        <v-flex>
+                                            <v-data-table
+                                                :items="fileAsArray"
+                                                hide-headers>
+                                                <template slot="items" slot-scope="props">
+                                                    <td v-for="(prop, i) in props.item">{{ prop }}</td>
+                                                </template>
+                                            </v-data-table>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+
+    <!-- source code -->
+    <script type="text/javascript" src="app.js"></script>
+</body>
