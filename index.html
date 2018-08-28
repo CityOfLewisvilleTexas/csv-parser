@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>File Parser</title>
+    <title>Spreadsheet Parser</title>
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,11 +31,11 @@
                                     <v-btn icon flat dark @click="reset">
                                         <v-icon>settings_backup_restore</v-icon>
                                     </v-btn>
-                                    CSV Parser
+                                    Spreadsheet Parser
                                 </v-flex>
                                 <v-btn flat @click="pickFile" dark>
                                     <v-icon>attach_file</v-icon>
-                                    &nbsp;{{ filename ? filename : 'Select CSV' }}
+                                    &nbsp;{{ filename ? filename : 'Select Spreadsheet' }}
                                 </v-btn>
                                 <br>
                                 <!-- <v-btn flat dark v-if="fileAsArray.length>0" @click="detailsVisible = !detailsVisible">
