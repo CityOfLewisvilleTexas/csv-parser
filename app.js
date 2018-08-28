@@ -96,8 +96,12 @@ var app = new Vue({
                     type: 'binary'
                 })
                 workbook.SheetNames.forEach(function(sheetName) {
+
+                    // worksheet
+                    var ws = workbook.Sheets[sheetName]
+
                     // Here is your object
-                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    var XL_row_object = XLSX.utils.sheet_to_json(ws, { defval: '', raw: true });
                     this.fileAsArray = XL_row_object
                     for (var prop in this.fileAsArray[0]) {
                         if (this.fileAsArray[0].hasOwnProperty(prop)) {
