@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Uploader Setup</title>
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="http://metrics.cityoflewisville.com/assets/pmartin_dark.png" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <link rel="stylesheet" src="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <!-- <script type="text/javascript" src="./moment/moment.js"></script> -->
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <v-app class="indigo">
+            <v-container>
+                <v-layout>
+                    <v-flex>
+                        <v-stepper v-model="stepper" light>
+                            <v-stepper-header>
+                                <v-stepper-step :complete="stepper > 1" step="1">Choose a table</v-stepper-step>
+                                <v-divider></v-divider>
+                                <v-stepper-step :complete="stepper > 2" step="2">Name of step 2</v-stepper-step>
+                                <v-divider></v-divider>
+                                <v-stepper-step step="3">Name of step 3</v-stepper-step>
+                            </v-stepper-header>
+                            <v-stepper-items>
+                                <v-stepper-content step="1">
+                                    <v-card class="mb-5" flat>
+                                        <p class="subheading">Choose a table to upload to. If it doesn't appear, create it at <code>[AX1VSQL8].[CSVUploadApp]</code></p>
+                                    </v-card>
+                                    <v-btn color="primary" @click="stepper = 2">
+                                        Continue
+                                    </v-btn>
+                                    <v-btn flat>Cancel</v-btn>
+                                </v-stepper-content>
+                            </v-stepper-items>
+                        </v-stepper>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </v-app>
+    </div>
+    <!-- source code -->
+    <script type="text/javascript" src="app.js"></script>
+</body>

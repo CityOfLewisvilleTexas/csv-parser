@@ -24,53 +24,6 @@
         <v-app class="indigo">
             <v-content>
                 <v-container>
-                    <!-- <v-layout row wrap>
-                        <v-flex xs12 mb-3>
-                            <div class="text-xs-center white--text">
-                                <v-flex class="title" mb-3>
-                                    <v-btn icon flat dark @click="reset">
-                                        <v-icon>settings_backup_restore</v-icon>
-                                    </v-btn>
-                                    Spreadsheet Parser
-                                </v-flex>
-                                <v-btn flat @click="pickFile" dark>
-                                    <v-icon>attach_file</v-icon>
-                                    &nbsp;{{ filename ? filename : 'Select Spreadsheet' }}
-                                </v-btn>
-                                <br>
-                            </div>
-                            <input style="display: none" type="file" id="csvFileInput" accept=".csv,.xlsx" ref="myFiles" @change="handleFiles" />
-                        </v-flex>
-                        <v-flex xs12 v-if="detailsVisible && fileAsArray.length>0">
-                            <v-card>
-                                <v-container>
-                                    <v-layout>
-                                        <v-flex>
-                                            <v-data-table
-                                                v-if="filetype=='csv'"
-                                                :items="fileAsArray"
-                                                hide-headers
-                                                :rows-per-page-items="[10,25,50,100]">
-                                                <template slot="items" slot-scope="props">
-                                                    <td v-for="(prop, i) in props.item">{{ prop }}</td>
-                                                </template>
-                                            </v-data-table>
-                                            <v-data-table
-                                                v-else-if="filetype=='xlsx'"
-                                                :items="fileAsArray"
-                                                :headers="headers"
-                                                disable-initial-sort
-                                                :rows-per-page-items="[10,25,50,100]">
-                                                <template slot="items" slot-scope="props">
-                                                    <td v-for="(prop, i) in props.item">{{ prop }}</td>
-                                                </template>
-                                            </v-data-table>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-container>
-                            </v-card>
-                        </v-flex>
-                    </v-layout> -->
                     <v-stepper v-model="stepper" vertical>
                         <v-stepper-step :complete="stepper > 1" step="1" :editable="stepper>1">
                             Select a spreadsheet
