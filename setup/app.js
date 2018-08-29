@@ -6,13 +6,13 @@ var app = new Vue({
 
     // vars
     data: {
-        stepper: 1,
+        stepper: 3,
         tables: [],
         columns: [],
         masks: [],
         mask: '',
-        hasColumnMapping: true,
-
+        hasColumnMapping: false,
+        columnMap: {},
 
         isLoading: {
             tables: false,
@@ -21,7 +21,17 @@ var app = new Vue({
         },
         selected: {
             table: ''
-        }
+        },
+        done: false,
+        title: ''
+    },
+
+    computed: {
+        // checks if provided mask is unique
+        isUniqueMask: function() {
+            if (this.mask==='') return false
+            return this.masks.indexOf(this.mask) == -1
+        },
     },
 
     watch: {
@@ -39,6 +49,27 @@ var app = new Vue({
 
     // functions
     methods: {
+
+        reset: function() {
+            this.stepper = 1,
+            this.tables = [],
+            this.columns = [],
+            this.masks = [],
+            this.mask = '',
+            this.hasColumnMapping = false,
+            this.columnMap = {},
+            this.isLoading = {
+                tables: false,
+                masks: false,
+                columns: false
+            }
+            this.selected = {
+                table: ''
+            }
+            this.done = false
+            this.title = ''
+            this.fetchTables()
+        },
 
         // fetch all tables in [CSVUploadApp]
         fetchTables: function() {
@@ -69,6 +100,7 @@ var app = new Vue({
         },
         handleColumns: function(res) {
             this.columns = res
+            this.columns.forEach(function(c) { Vue.set(this.columnMap, c, '') }.bind(this))
             this.isLoading.columns = false
         },
 
@@ -96,17 +128,10 @@ var app = new Vue({
             return text;
         },
 
-        // checks if provided mask is unique
-        isUniqueMask: function(mask) {
-            if (mask==='') return false
-            return this.masks.indexOf(mask) == -1
-        },
-
         // randomize mask
         fillWithRandomMask: function(context) {
             this.mask = this.generateRandomMask()
-            while(!this.isUniqueMask(this.mask))
-                this[context] = this.generateRandomMask()
+            while(!this.isUniqueMask) this[context] = this.generateRandomMask()
         }
     }
 })

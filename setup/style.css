@@ -19,3 +19,7 @@ nav .logo {
 nav .title {
 	font-size: 1.5rem;
 }
+
+code {
+    padding: 4px !important;
+}

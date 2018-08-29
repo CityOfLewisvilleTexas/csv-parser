@@ -23,13 +23,14 @@
             <v-container>
                 <v-layout>
                     <v-flex>
-                        <v-stepper v-model="stepper" light>
+                        <v-btn flat @click="reset" dark>start over</v-btn>
+                        <v-stepper v-model="stepper" light v-if="!done">
                             <v-stepper-header>
                                 <v-stepper-step :complete="stepper > 1" step="1">Choose a table</v-stepper-step>
                                 <v-divider></v-divider>
                                 <v-stepper-step :complete="stepper > 2" step="2">Set table mask</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step step="3">Settings</v-stepper-step>
+                                <v-stepper-step step="3">Choose options</v-stepper-step>
                             </v-stepper-header>
                             <v-stepper-items>
                                 <!-- choosing a table -->
@@ -42,9 +43,10 @@
                                             <v-select
                                                 v-model="selected.table"
                                                 :items="tables"
-                                                label="Tables"
+                                                label="Tables..."
                                                 :loading="isLoading.tables"
                                                 :disabled="isLoading.tables"
+                                                hide-details
                                                 solo>
                                             </v-select>
                                         </v-flex>
@@ -59,24 +61,25 @@
                                         <v-flex xs12>
                                             <p class="subheading">Choose a mask for your table. Must be unique.</p>
                                         </v-flex>
-                                        <v-flex xs12 lg5 mb-3>
+                                        <v-flex xs12 lg5 :mb-3="!isUniqueMask">
                                             <v-text-field
                                                 :loading="isLoading.masks"
                                                 :disabled="isLoading.masks"
                                                 v-model="mask"
-                                                label="Mask"
+                                                label="Mask..."
+                                                hint="Click the icon to randomize!"
                                                 prepend-icon="autorenew"
                                                 @click:prepend="fillWithRandomMask('mask')"
                                                 solo>
                                             </v-text-field>
                                             <v-alert
                                                 type="error"
-                                                :value="!isUniqueMask(mask)">
+                                                :value="!isUniqueMask">
                                                 Mask is not unique.
                                             </v-alert>
                                         </v-flex>
                                     </v-layout>
-                                    <v-btn color="primary" @click="stepper = 3" :disabled="isLoading.masks || !isUniqueMask(mask)">
+                                    <v-btn color="primary" @click="stepper = 3" :disabled="isLoading.masks || !isUniqueMask">
                                         Continue
                                     </v-btn>
                                 </v-stepper-content>
@@ -84,6 +87,18 @@
                                 <v-stepper-content step="3" class="blue-grey lighten-4">
                                     <v-card>
                                         <v-card-text>
+                                            <v-text-field
+                                                v-model="title"
+                                                label="Uploader title..."
+                                                hint="(optional)"
+                                                solo>
+                                            </v-text-field>
+                                            <v-textarea
+                                                v-model="instruction"
+                                                label="Instructions for user..."
+                                                hint="(optional)"
+                                                solo>
+                                            </v-textarea>
                                             <v-checkbox :disabled="isLoading.columns" v-model="hasColumnMapping" label="Column Mapping"></v-checkbox>
                                             <v-layout ml-5 v-if="hasColumnMapping" row wrap>
                                                 <v-flex xs12>
@@ -91,18 +106,23 @@
                                                 </v-flex>
                                                 <v-flex xs12 lg4 mr-3 v-for="(col,idx) in columns" :key="idx">
                                                     <v-text-field
-                                                        :label="col">
+                                                        v-model="columnMap[col]"
+                                                        :label="col"
+                                                        hint="Enter header exactly as it appears">
                                                     </v-text-field>
                                                 </v-flex>
                                             </v-layout>
                                         </v-card-text>
                                     </v-card>
-                                    <v-btn color="primary" @click="">
+                                    <v-btn color="primary" @click="done = true">
                                         Done!
                                     </v-btn>
                                 </v-stepper-content>
                             </v-stepper-items>
                         </v-stepper>
+                        <v-alert :value="done" type="success">
+                            Your spreadsheet uploader is ready! Click here to see it.
+                        </v-alert>
                     </v-flex>
                 </v-layout>
             </v-container>
