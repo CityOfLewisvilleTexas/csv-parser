@@ -27,22 +27,56 @@
                             <v-stepper-header>
                                 <v-stepper-step :complete="stepper > 1" step="1">Choose a table</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step :complete="stepper > 2" step="2">Name of step 2</v-stepper-step>
+                                <v-stepper-step :complete="stepper > 2" step="2">Set table mask</v-stepper-step>
                                 <v-divider></v-divider>
                                 <v-stepper-step step="3">Name of step 3</v-stepper-step>
                             </v-stepper-header>
                             <v-stepper-items>
+                                <!-- choosing a table -->
                                 <v-stepper-content step="1" class="blue-grey lighten-4">
                                     <v-layout row wrap>
                                         <v-flex xs12>
                                             <p class="subheading">Choose a table to upload to. If it doesn't appear, create it at <code>[AX1VSQL8].[CSVUploadApp]</code></p>
                                         </v-flex>
                                         <v-flex xs12 lg5 mb-3>
-                                            <v-select v-model="selected.table" :items="tables" label="Tables" solo></v-select>
-                                            {{ selected.table }}
+                                            <v-select
+                                                v-model="selected.table"
+                                                :items="tables"
+                                                label="Tables"
+                                                :loading="isLoading.tables"
+                                                :disabled="isLoading.tables"
+                                                solo>
+                                            </v-select>
                                         </v-flex>
                                     </v-layout>
-                                    <v-btn color="primary" @click="stepper = 2" :disabled="!selected.table">
+                                    <v-btn color="primary" @click="stepper = 2" :disabled="isLoading.tables || !selected.table">
+                                        Continue
+                                    </v-btn>
+                                </v-stepper-content>
+                                <!--  mask the table -->
+                                <v-stepper-content step="2" class="blue-grey lighten-4">
+                                    <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <p class="subheading">Choose a mask for your table. Must be unique.</p>
+                                        </v-flex>
+                                        <v-flex xs12 lg5 mb-3>
+                                            <v-text-field
+                                                :loading="isLoading.masks"
+                                                :disabled="isLoading.masks"
+                                                v-model="mask"
+                                                label="Mask"
+                                                prepend-icon="autorenew"
+                                                @click:prepend="fillWithRandomMask('mask')"
+                                                solo>
+                                            </v-text-field>
+                                            <v-alert
+                                                type="error"
+                                                :value="!isUniqueMask(mask)">
+                                                Mask is not unique.
+                                            </v-alert>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-btn color="primary" @click="stepper = 3" :disabled="isLoading.masks || !isUniqueMask(mask)">
                                         Continue
                                     </v-btn>
                                 </v-stepper-content>
