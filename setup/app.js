@@ -6,7 +6,7 @@ var app = new Vue({
 
     // vars
     data: {
-        stepper: 3,
+        stepper: 1,
         tables: [],
         columns: [],
         masks: [],
