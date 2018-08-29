@@ -12,7 +12,8 @@
     <link rel="stylesheet" src="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.2.0/vuetify.js"></script>
     <!-- <script type="text/javascript" src="./moment/moment.js"></script> -->
 </head>
 
@@ -31,14 +32,19 @@
                                 <v-stepper-step step="3">Name of step 3</v-stepper-step>
                             </v-stepper-header>
                             <v-stepper-items>
-                                <v-stepper-content step="1">
-                                    <v-card class="mb-5" flat>
-                                        <p class="subheading">Choose a table to upload to. If it doesn't appear, create it at <code>[AX1VSQL8].[CSVUploadApp]</code></p>
-                                    </v-card>
-                                    <v-btn color="primary" @click="stepper = 2">
+                                <v-stepper-content step="1" class="blue-grey lighten-4">
+                                    <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <p class="subheading">Choose a table to upload to. If it doesn't appear, create it at <code>[AX1VSQL8].[CSVUploadApp]</code></p>
+                                        </v-flex>
+                                        <v-flex xs12 lg5 mb-3>
+                                            <v-select v-model="selected.table" :items="tables" label="Tables" solo></v-select>
+                                            {{ selected.table }}
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-btn color="primary" @click="stepper = 2" :disabled="!selected.table">
                                         Continue
                                     </v-btn>
-                                    <v-btn flat>Cancel</v-btn>
                                 </v-stepper-content>
                             </v-stepper-items>
                         </v-stepper>
