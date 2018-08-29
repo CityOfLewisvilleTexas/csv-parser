@@ -6,15 +6,18 @@ var app = new Vue({
 
     // vars
     data: {
-        stepper: 1,
+        stepper: 3,
         tables: [],
+        columns: [],
         masks: [],
         mask: '',
+        hasColumnMapping: true,
 
 
         isLoading: {
             tables: false,
-            masks: false
+            masks: false,
+            columns: false
         },
         selected: {
             table: ''
@@ -24,12 +27,14 @@ var app = new Vue({
     watch: {
         stepper: function() {
             if (this.stepper === 2) this.fetchMasks()
+            else if (this.stepper === 3) this.fetchColumns()
         }
     },
 
     // start here
     mounted: function() {
         this.fetchTables()
+        this.fetchColumns()
     },
 
     // functions
@@ -49,6 +54,22 @@ var app = new Vue({
         handleTables: function(res) {
             this.tables = res
             this.isLoading.tables = false
+        },
+
+        // fetch all columns in selected table
+        fetchColumns: function() {
+            if (this.isLoading.columns===false) {
+                this.isLoading.columns = true
+
+                // axios('fetch tables')
+                setTimeout(() => {
+                    this.handleColumns(['column1', 'column2', 'column3', 'column4', 'column5'])
+                }, 500)
+            }
+        },
+        handleColumns: function(res) {
+            this.columns = res
+            this.isLoading.columns = false
         },
 
         // fetch all masks
@@ -77,6 +98,7 @@ var app = new Vue({
 
         // checks if provided mask is unique
         isUniqueMask: function(mask) {
+            if (mask==='') return false
             return this.masks.indexOf(mask) == -1
         },
 

@@ -29,7 +29,7 @@
                                 <v-divider></v-divider>
                                 <v-stepper-step :complete="stepper > 2" step="2">Set table mask</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step step="3">Name of step 3</v-stepper-step>
+                                <v-stepper-step step="3">Settings</v-stepper-step>
                             </v-stepper-header>
                             <v-stepper-items>
                                 <!-- choosing a table -->
@@ -78,6 +78,27 @@
                                     </v-layout>
                                     <v-btn color="primary" @click="stepper = 3" :disabled="isLoading.masks || !isUniqueMask(mask)">
                                         Continue
+                                    </v-btn>
+                                </v-stepper-content>
+                                <!-- general settings for the uploader -->
+                                <v-stepper-content step="3" class="blue-grey lighten-4">
+                                    <v-card>
+                                        <v-card-text>
+                                            <v-checkbox :disabled="isLoading.columns" v-model="hasColumnMapping" label="Column Mapping"></v-checkbox>
+                                            <v-layout ml-5 v-if="hasColumnMapping" row wrap>
+                                                <v-flex xs12>
+                                                    <p>This is where you make a direct link between the spreadsheet headers to the table columns. Only do so if you know the spreadsheet headers will not change.</p>
+                                                </v-flex>
+                                                <v-flex xs12 lg4 mr-3 v-for="(col,idx) in columns" :key="idx">
+                                                    <v-text-field
+                                                        :label="col">
+                                                    </v-text-field>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-card-text>
+                                    </v-card>
+                                    <v-btn color="primary" @click="">
+                                        Done!
                                     </v-btn>
                                 </v-stepper-content>
                             </v-stepper-items>
