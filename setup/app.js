@@ -6,7 +6,7 @@ var app = new Vue({
 
     // vars
     data: {
-        stepper: 1,
+        stepper: 3,
         tables: [],
         columns: [],
         masks: [],
@@ -24,7 +24,7 @@ var app = new Vue({
         },
         done: false,
         title: '',
-        description: ''
+        instruction: ''
     },
 
     computed: {
@@ -69,7 +69,7 @@ var app = new Vue({
             }
             this.done = false
             this.title = ''
-            this.description = ''
+            this.instruction = ''
             this.fetchTables()
         },
 
