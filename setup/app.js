@@ -33,6 +33,22 @@ var app = new Vue({
             if (this.mask==='') return false
             return this.masks.indexOf(this.mask) == -1
         },
+
+        // column mapping object
+        columnMapFormatted: function() {
+            if (this.hasColumnMapping===false) return ''
+            else {
+                return this.columns.map(function(col) {
+                    return col + ':::' + this.columnMap[col]
+                }.bind(this)).join('|||')
+            }
+        }
+        // "DECRYPT" column map
+        // cmap.split('|||').map(function(a) {
+        //     var obj = {}
+        //     obj[a.split(':::')[0]] = a.split(':::')[1]
+        //     return obj
+        // })
     },
 
     watch: {
