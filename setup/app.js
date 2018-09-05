@@ -110,13 +110,13 @@ var app = new Vue({
                 this.isLoading.masks = true
 
                 // axios('fetch masks')
-                setTimeout(() => {
-                    this.handleMasks(['mask1', 'mask2', 'mask3', 'mask4', 'mask5'])
-                }, 500)
+                axios.post('https:/ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get All Masks', {
+                    auth_token: localStorage.colAuthToken
+                }).then(this.handleMasks)
             }
         },
         handleMasks: function(res) {
-            this.masks = res
+            this.masks = res.data[0].map(function(m) { return m.tablemask })
             this.isLoading.masks = false
         },
 
