@@ -6,7 +6,7 @@ var app = new Vue({
 
     // vars
     data: {
-        stepper: 3,
+        stepper: 1,
         tables: [],
         columns: [],
         masks: [],
@@ -77,15 +77,13 @@ var app = new Vue({
         fetchTables: function() {
             if (this.isLoading.tables===false) {
                 this.isLoading.tables = true
-
-                // axios('fetch tables')
-                setTimeout(() => {
-                    this.handleTables(['table1', 'table2', 'table3', 'table4', 'table5'])
-                }, 500)
+                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get All Tables', {
+                    auth_token: localStorage.colAuthToken
+                }).then(this.handleTables)
             }
         },
         handleTables: function(res) {
-            this.tables = res
+            this.tables = res.data[0].map(function(tb) { return tb.TABLE_NAME })
             this.isLoading.tables = false
         },
 
