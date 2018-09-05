@@ -89,17 +89,18 @@ var app = new Vue({
 
         // fetch all columns in selected table
         fetchColumns: function() {
-            if (this.isLoading.columns===false) {
+            if (this.isLoading.columns===false && this.selected.table!='') {
                 this.isLoading.columns = true
 
                 // axios('fetch tables')
-                setTimeout(() => {
-                    this.handleColumns(['column1', 'column2', 'column3', 'column4', 'column5'])
-                }, 500)
+                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get Columns By Table Name', {
+                    auth_token: localStorage.colAuthToken,
+                    tablename: this.selected.table
+                }).then(this.handleColumns)
             }
         },
         handleColumns: function(res) {
-            this.columns = res
+            this.columns = res.data[0].map(function(col) { return col.COLUMN_NAME })
             this.columns.forEach(function(c) { Vue.set(this.columnMap, c, '') }.bind(this))
             this.isLoading.columns = false
         },
