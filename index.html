@@ -38,7 +38,7 @@
                                     <v-icon>attach_file</v-icon>
                                     &nbsp; Select Spreadsheet
                                 </v-btn>
-                                <a target="_blank" href="https://drive.google.com/uc?export=download&id=11UIaviBYWfoW8eZZ5qdLJinhfqHpdN-O">test spreadsheet</a>
+                                <a target="_blank" href="https://drive.google.com/uc?export=download&id=1qnmGQqJdC6H_h1i0Jn31x-1fKchUt_Nb">test spreadsheet</a>
                                 <input style="display: none" type="file" id="csvFileInput" accept=".csv,.xlsx" ref="myFiles" @change="updateFileName" />
                             </v-flex>
                             <v-alert
@@ -50,7 +50,7 @@
                             <v-btn color="primary" @click="handleFiles" :disabled="filename.length==0 || processing">Continue</v-btn>
                         </v-stepper-content>
                         <v-stepper-step :complete="stepper > 2" step="2" :editable="stepper>2">
-                            Filter headers {{ uploaderConfig.columnmaps ? '(auto generated)' : '' }}
+                            Column Mapping
                         </v-stepper-step>
                         <v-stepper-content step="2">
                             <v-flex xs12 lg5>

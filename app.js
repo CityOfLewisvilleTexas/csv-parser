@@ -34,12 +34,12 @@ var app = new Vue({
 
     computed: {
         verifiedHeadersFormatted: function() {
-            return this.verifiedHeaders.map(function(h) {
+            return this.columns.map(function(c) {
                 return {
-                    text: h,
-                    value: h
+                    text: this.columnMap[c],
+                    value: this.columnMap[c]
                 }
-            })
+            }.bind(this))
         },
 
         fileAsArrayFormatted: function() {
@@ -48,8 +48,10 @@ var app = new Vue({
                     var obj = {}
                     for (var prop in this.fileAsArray[0]) {
                         // verified only
-                        if (this.verifiedHeaders.indexOf(this.fileAsArray[0][prop]) != -1)
-                            obj[this.fileAsArray[0][prop]] = row[prop]
+                        for (var prop2 in this.columnMap) {
+                            if (this.columnMap[prop2] == prop)
+                                obj[this.fileAsArray[0][prop]] = row[prop]
+                        }
                     }
                     return obj
                 }.bind(this))
@@ -57,8 +59,10 @@ var app = new Vue({
                 var obj = {}
                 for (var prop in this.fileAsArray[0]) {
                     // verified only
-                    if (this.verifiedHeaders.indexOf(prop) != -1)
-                        obj[prop] = row[prop]
+                    for (var prop2 in this.columnMap) {
+                        if (this.columnMap[prop2] == prop)
+                            obj[prop] = row[prop]
+                    }
                 }
                 return obj
             }.bind(this))
@@ -107,25 +111,6 @@ var app = new Vue({
             this.isLoading.columns = false
         },
 
-
-
-        fake: function() {
-            this.filename = 'fake'
-            this.filetype = 'xlsx'
-            this.filesize = '1 KB'
-            this.fileAsArray = [
-                { fname: 'colton', lname: 'wood', email: 'cwood@col.com' },
-                { fname: 'elizabeth', lname: 'mayes', email: 'emayes@col.com' },
-                { fname: 'jason', lname: 'kirkland', email: 'jkirkland@col.com' }
-            ]
-            this.headers = [
-                { text: 'fname', value: 'fname' },
-                { text: 'lname', value: 'lname' },
-                { text: 'email', value: 'email' }
-            ]
-            this.verifiedHeaders = this.headers.map(function(h) { return h.text })
-            this.stepper = this.uploaderConfig.columnmaps ? 2 : 2
-        },
 
         pickFile: function() {
             this.$refs.myFiles.click()
