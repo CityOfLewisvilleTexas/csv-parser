@@ -53,26 +53,10 @@ var app = new Vue({
                             obj[prop] = row[this.columnMap[prop]]
                         }
                     }
-
-                    // for (var prop in this.fileAsArray[0]) {
-                    //     // verified only
-                    //     for (var prop2 in this.columnMap) {
-                    //         if (this.columnMap[prop2] == prop)
-                    //             obj[this.fileAsArray[0][prop]] = row[prop]
-                    //     }
-                    // }
                     return obj
                 }.bind(this))
             } else return this.fileAsArray.map(function(row) {
                 var obj = {}
-                // for (var prop in this.fileAsArray[0]) {
-                //     // verified only
-                //     for (var prop2 in this.columnMap) {
-                //         if (this.columnMap[prop2] == prop)
-                //             obj[prop] = row[prop]
-                //     }
-                // }
-                // only take columns from table
                 for (var prop in this.columnMap) {
                     if (this.columnMap.hasOwnProperty(prop)) {
                         obj[prop] = row[this.columnMap[prop]]
@@ -103,6 +87,10 @@ var app = new Vue({
             }
         },
         handleConfig: function(res) {
+            if (res.data[0].length===0) {
+                alert('No configs found for this mask.')
+                return
+            }
             this.uploaderConfig = res.data[0][0]
             this.uploaderConfig.columnmaps.split('|||').forEach(function(map) {
                 Vue.set(this.columnMap, map.split('==>')[0], map.split('==>')[1])

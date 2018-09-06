@@ -27,7 +27,7 @@
                     <h1 class="white--text display-1 mb-3" v-if="uploaderConfig.title">{{ uploaderConfig.title }}</h1>
                     <p class="white--text" v-if="uploaderConfig.description">{{ uploaderConfig.description }}</p>
 
-                    <v-stepper v-model="stepper" vertical v-if="uploaderConfig">
+                    <v-stepper v-model="stepper" vertical v-if="uploaderConfig.id!=-1">
                         <v-stepper-step :complete="stepper > 1" step="1" :editable="stepper>1">
                             Select a spreadsheet
                             <small>Choose a .csv or .xlsx</small>
