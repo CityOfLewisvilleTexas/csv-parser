@@ -24,7 +24,7 @@
         <v-app class="indigo">
             <v-content>
                 <v-container>
-                    <v-stepper v-model="stepper" vertical>
+                    <v-stepper v-model="stepper" vertical v-if="uploaderConfig">
                         <v-stepper-step :complete="stepper > 1" step="1" :editable="stepper>1">
                             Select a spreadsheet
                             <small>Choose a .csv or .xlsx</small>

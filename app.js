@@ -9,7 +9,8 @@ var app = new Vue({
         stepper: 1,
         verifiedHeaders: [],
         processing: false,
-
+        tablemask: null,
+        uploaderConfig: null,
 
         filename: '',
         filesize: 0,
@@ -52,8 +53,27 @@ var app = new Vue({
         }
     },
 
+    mounted: function() {
+        this.fetchConfig()
+    },
+
     // functions
     methods: {
+
+        fetchConfig: function() {
+            this.tablemask = getUrlParameter('mask')
+            if (this.tablemask===null || this.tablemask===undefined || this.tablemask==='') {
+                alert('Invalid url parameter')
+                return
+            }
+            else {
+                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get Uploader Config by Mask', { tablemask: this.tablemask })
+                    .then(this.handleConfig)
+            }
+        },
+        handleConfig: function(res) {
+            this.uploaderConfig = res.data[0][0]
+        },
 
         fake: function() {
             this.filename = 'fake'
@@ -208,3 +228,14 @@ var app = new Vue({
         }
     }
 })
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName, i;
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) return sParameterName[1] === undefined ? true : sParameterName[1];
+    }
+
+};
