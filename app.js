@@ -21,6 +21,7 @@ var app = new Vue({
             tablemask: '',
             columnmaps: ''
         },
+        columnMap: {},
 
         filename: '',
         filesize: 0,
@@ -85,6 +86,9 @@ var app = new Vue({
         },
         handleConfig: function(res) {
             this.uploaderConfig = res.data[0][0]
+            this.uploaderConfig.columnmaps.split('|||').forEach(function(map) {
+                Vue.set(this.columnMap, map.split('==>')[0], map.split('==>')[1])
+            }.bind(this))
             this.fetchColumns()
         },
 
@@ -120,7 +124,7 @@ var app = new Vue({
                 { text: 'email', value: 'email' }
             ]
             this.verifiedHeaders = this.headers.map(function(h) { return h.text })
-            this.stepper = this.uploaderConfig.columnmaps ? 3 : 2
+            this.stepper = this.uploaderConfig.columnmaps ? 2 : 2
         },
 
         pickFile: function() {
@@ -199,7 +203,7 @@ var app = new Vue({
             }
             this.verifiedHeaders = this.headers.map(function(h) { return h.value })
             this.processing = false
-            this.stepper = this.uploaderConfig.columnmaps ? 3 : 2
+            this.stepper = this.uploaderConfig.columnmaps ? 2 : 2
         },
 
         // alert any errors

@@ -26,6 +26,7 @@
                 <v-container>
                     <h1 class="white--text display-1 mb-3" v-if="uploaderConfig.title">{{ uploaderConfig.title }}</h1>
                     <p class="white--text" v-if="uploaderConfig.description">{{ uploaderConfig.description }}</p>
+
                     <v-stepper v-model="stepper" vertical v-if="uploaderConfig">
                         <v-stepper-step :complete="stepper > 1" step="1" :editable="stepper>1">
                             Select a spreadsheet
@@ -37,7 +38,7 @@
                                     <v-icon>attach_file</v-icon>
                                     &nbsp; Select Spreadsheet
                                 </v-btn>
-                                <v-btn color="blue-grey" @click="fake" dark>fake it</v-btn>
+                                <a target="_blank" href="https://drive.google.com/uc?export=download&id=11UIaviBYWfoW8eZZ5qdLJinhfqHpdN-O">test spreadsheet</a>
                                 <input style="display: none" type="file" id="csvFileInput" accept=".csv,.xlsx" ref="myFiles" @change="updateFileName" />
                             </v-flex>
                             <v-alert
@@ -52,16 +53,16 @@
                             Filter headers {{ uploaderConfig.columnmaps ? '(auto generated)' : '' }}
                         </v-stepper-step>
                         <v-stepper-content step="2">
-                            <v-flex>
-                                <p>The headers were generated from the first row of the spreadsheet. Verify them below.</p>
-                                <v-checkbox
+                            <v-flex xs12 lg5>
+                                <p>Match each field with its corresponding spreadsheet header.</p>
+                                <v-select
                                     class="mt-0"
-                                    v-for="header in headers"
-                                    :key="header.value"
-                                    v-model="verifiedHeaders"
-                                    :label="header.text"
-                                    :value="header.value">
-                                </v-checkbox>
+                                    v-for="col in columns"
+                                    v-model="columnMap[col]"
+                                    :key="col"
+                                    :label="col"
+                                    :items="verifiedHeaders">
+                                </v-select>
                             </v-flex>
                             <v-btn color="primary" @click="stepper = 3" :disabled="verifiedHeaders.length == 0">Continue</v-btn>
                         </v-stepper-content>
