@@ -23,3 +23,7 @@ nav .title {
 code {
     padding: 4px !important;
 }
+
+.pointy {
+    cursor: pointer;
+}

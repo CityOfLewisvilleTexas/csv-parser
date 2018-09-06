@@ -169,6 +169,10 @@ var app = new Vue({
                 tablemask: this.mask,
                 columnmaps: this.columnMapFormatted
             }).then(this.handleMasks)
+        },
+
+        openUploader: function(mask) {
+            window.open('../?mask=' + mask)
         }
     }
 })

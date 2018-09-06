@@ -127,7 +127,7 @@
                                 </v-stepper-content>
                             </v-stepper-items>
                         </v-stepper>
-                        <v-alert :value="done" type="success">
+                        <v-alert class="pointy" :value="done" type="success" @click="openUploader(mask)">
                             Your spreadsheet uploader is ready! Click here to see it.
                         </v-alert>
                         <v-btn flat @click="reset" dark>start over</v-btn>
