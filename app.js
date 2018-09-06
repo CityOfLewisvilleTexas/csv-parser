@@ -10,7 +10,14 @@ var app = new Vue({
         verifiedHeaders: [],
         processing: false,
         tablemask: null,
-        uploaderConfig: null,
+        uploaderConfig: {
+            id: -1,
+            title: '',
+            description: '',
+            tablename: '',
+            tablemask: '',
+            columnmaps: ''
+        },
 
         filename: '',
         filesize: 0,
