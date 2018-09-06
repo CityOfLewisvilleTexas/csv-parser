@@ -6,6 +6,9 @@ var app = new Vue({
 
     // vars
     data: {
+        isLoading: {
+            columns: false
+        },
         stepper: 1,
         verifiedHeaders: [],
         processing: false,
@@ -24,7 +27,8 @@ var app = new Vue({
         fileAsArray: [],
         detailsVisible: true,
         filetype: '',
-        headers: []
+        headers: [],
+        columns: []
     },
 
     computed: {
@@ -67,6 +71,7 @@ var app = new Vue({
     // functions
     methods: {
 
+        // fetch the uploader config from the mask in the url
         fetchConfig: function() {
             this.tablemask = getUrlParameter('mask')
             if (this.tablemask===null || this.tablemask===undefined || this.tablemask==='') {
@@ -80,7 +85,25 @@ var app = new Vue({
         },
         handleConfig: function(res) {
             this.uploaderConfig = res.data[0][0]
+            this.fetchColumns()
         },
+
+        // fetch all columns in selected table by mask
+        fetchColumns: function() {
+            if (this.isLoading.columns===false && this.uploaderConfig.tablename!='') {
+                this.isLoading.columns = true
+
+                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get Columns By Table Mask', {
+                    tablemask: this.uploaderConfig.tablemask
+                }).then(this.handleColumns)
+            }
+        },
+        handleColumns: function(res) {
+            this.columns = res.data[0].map(function(col) { return col.COLUMN_NAME })
+            this.isLoading.columns = false
+        },
+
+
 
         fake: function() {
             this.filename = 'fake'
@@ -97,7 +120,7 @@ var app = new Vue({
                 { text: 'email', value: 'email' }
             ]
             this.verifiedHeaders = this.headers.map(function(h) { return h.text })
-            this.stepper = 2
+            this.stepper = this.uploaderConfig.columnmaps ? 3 : 2
         },
 
         pickFile: function() {
@@ -176,7 +199,7 @@ var app = new Vue({
             }
             this.verifiedHeaders = this.headers.map(function(h) { return h.value })
             this.processing = false
-            this.stepper = 2
+            this.stepper = this.uploaderConfig.columnmaps ? 3 : 2
         },
 
         // alert any errors
