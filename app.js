@@ -36,8 +36,8 @@ var app = new Vue({
         verifiedHeadersFormatted: function() {
             return this.columns.map(function(c) {
                 return {
-                    text: this.columnMap[c],
-                    value: this.columnMap[c]
+                    text:c,
+                    value: c
                 }
             }.bind(this))
         },
@@ -46,22 +46,36 @@ var app = new Vue({
             if (this.filetype == 'csv') {
                 return this.fileAsArray.slice(1).map(function(row) {
                     var obj = {}
-                    for (var prop in this.fileAsArray[0]) {
-                        // verified only
-                        for (var prop2 in this.columnMap) {
-                            if (this.columnMap[prop2] == prop)
-                                obj[this.fileAsArray[0][prop]] = row[prop]
+
+                    // only take columns from table
+                    for (var prop in this.columnMap) {
+                        if (this.columnMap.hasOwnProperty(prop)) {
+                            obj[prop] = row[this.columnMap[prop]]
                         }
                     }
+
+                    // for (var prop in this.fileAsArray[0]) {
+                    //     // verified only
+                    //     for (var prop2 in this.columnMap) {
+                    //         if (this.columnMap[prop2] == prop)
+                    //             obj[this.fileAsArray[0][prop]] = row[prop]
+                    //     }
+                    // }
                     return obj
                 }.bind(this))
             } else return this.fileAsArray.map(function(row) {
                 var obj = {}
-                for (var prop in this.fileAsArray[0]) {
-                    // verified only
-                    for (var prop2 in this.columnMap) {
-                        if (this.columnMap[prop2] == prop)
-                            obj[prop] = row[prop]
+                // for (var prop in this.fileAsArray[0]) {
+                //     // verified only
+                //     for (var prop2 in this.columnMap) {
+                //         if (this.columnMap[prop2] == prop)
+                //             obj[prop] = row[prop]
+                //     }
+                // }
+                // only take columns from table
+                for (var prop in this.columnMap) {
+                    if (this.columnMap.hasOwnProperty(prop)) {
+                        obj[prop] = row[this.columnMap[prop]]
                     }
                 }
                 return obj
