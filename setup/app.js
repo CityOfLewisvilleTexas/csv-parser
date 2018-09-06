@@ -24,7 +24,7 @@ var app = new Vue({
         },
         done: false,
         title: '',
-        instruction: ''
+        description: ''
     },
 
     computed: {
@@ -85,7 +85,7 @@ var app = new Vue({
             }
             this.done = false
             this.title = ''
-            this.instruction = ''
+            this.description = ''
             this.fetchTables()
         },
 
