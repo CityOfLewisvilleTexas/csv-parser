@@ -92,9 +92,11 @@ var app = new Vue({
                 return
             }
             this.uploaderConfig = res.data[0][0]
-            this.uploaderConfig.columnmaps.split('|||').forEach(function(map) {
-                Vue.set(this.columnMap, map.split('==>')[0], map.split('==>')[1])
-            }.bind(this))
+            if (this.uploaderConfig.columnmaps!=='') {
+                this.uploaderConfig.columnmaps.split('|||').forEach(function(map) {
+                    Vue.set(this.columnMap, map.split('==>')[0], map.split('==>')[1])
+                }.bind(this))
+            }
             this.fetchColumns()
         },
 
