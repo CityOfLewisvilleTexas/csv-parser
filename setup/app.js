@@ -39,14 +39,14 @@ var app = new Vue({
             if (this.hasColumnMapping===false) return ''
             else {
                 return this.columns.map(function(col) {
-                    return col + ':::' + this.columnMap[col]
+                    return col + '==>' + this.columnMap[col]
                 }.bind(this)).join('|||')
             }
         }
         // "DECRYPT" column map
         // cmap.split('|||').map(function(a) {
         //     var obj = {}
-        //     obj[a.split(':::')[0]] = a.split(':::')[1]
+        //     obj[a.split('==>')[0]] = a.split('==>')[1]
         //     return obj
         // })
     },
@@ -149,6 +149,26 @@ var app = new Vue({
         fillWithRandomMask: function(context) {
             this.mask = this.generateRandomMask()
             while(!this.isUniqueMask) this[context] = this.generateRandomMask()
+        },
+
+        submit: function() {
+            console.log({
+                auth_token: localStorage.colAuthToken,
+                title: this.title,
+                description: this.description,
+                tablename: this.selected.table,
+                tablemask: this.mask,
+                columnmaps: this.columnMapFormatted
+            })
+
+            axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Insert Uploader Config', {
+                auth_token: localStorage.colAuthToken,
+                title: this.title,
+                description: this.description,
+                tablename: this.selected.table,
+                tablemask: this.mask,
+                columnmaps: this.columnMapFormatted
+            }).then(this.handleMasks)
         }
     }
 })
