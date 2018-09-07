@@ -102,14 +102,14 @@
                                             </v-text-field>
                                             <v-textarea
                                                 v-model="description"
-                                                label="Instructions for user..."
+                                                label="Description for uploader..."
                                                 hint="(optional)"
                                                 solo>
                                             </v-textarea>
                                             <v-checkbox :disabled="isLoading.columns" v-model="hasColumnMapping" label="Column Mapping" class="mt-0" hide-details></v-checkbox>
                                             <v-layout ml-5 v-if="hasColumnMapping" row wrap>
                                                 <v-flex xs12>
-                                                    <p>This is where you make a direct link between the spreadsheet headers and the table columns. Only do so if you know the spreadsheet headers will not change.</p>
+                                                    <p>For each table column, fill in the corresponding spreadsheet header exactly as it appears.</p>
                                                 </v-flex>
                                                 <v-flex xs12 lg4 mr-3 v-for="(col,idx) in columns" :key="idx">
                                                     <v-text-field

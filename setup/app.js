@@ -43,12 +43,6 @@ var app = new Vue({
                 }.bind(this)).join('|||')
             }
         }
-        // "DECRYPT" column map
-        // cmap.split('|||').map(function(a) {
-        //     var obj = {}
-        //     obj[a.split('==>')[0]] = a.split('==>')[1]
-        //     return obj
-        // })
     },
 
     watch: {

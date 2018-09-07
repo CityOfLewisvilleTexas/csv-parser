@@ -248,6 +248,16 @@ var app = new Vue({
             };
 
             reader.readAsBinaryString(file);
+        },
+
+        submit: function() {
+            axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Insert Json into Table by Mask', {
+                json: JSON.stringify(this.fileAsArrayFormatted),
+                tablemask: this.tablemask
+            }).then(this.handleSubmit)
+        },
+        handleSubmit: function(res) {
+            console.log(res.data[0])
         }
     }
 })

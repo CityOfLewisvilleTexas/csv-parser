@@ -84,10 +84,10 @@
                             </v-flex>
                             <v-btn color="primary" @click="stepper = 4">Continue</v-btn>
                         </v-stepper-content>
-                        <v-stepper-step step="4">???</v-stepper-step>
+                        <v-stepper-step step="4">Submit</v-stepper-step>
                         <v-stepper-content step="4">
-                            <v-flex xs12><code class="pa-4">{{ fileAsArrayFormatted }}</code></v-flex>
-                            <v-btn color="primary">Continue</v-btn>
+                            <p>If everything looks correct, submit!</p>
+                            <v-btn color="primary" @click="submit">Submit!</v-btn>
                         </v-stepper-content>
                     </v-stepper>
                 </v-container>
