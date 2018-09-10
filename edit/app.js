@@ -23,7 +23,7 @@ var app = new Vue({
         },
         selected: {
             table: '',
-            config: ''
+            config: -1
         },
         done: false,
         title: '',
@@ -49,10 +49,10 @@ var app = new Vue({
 
         // configs formatted for <select>
         configsFormatted: function() {
-            return this.configs.map(function(cf) {
+            return this.configs.map(function(cf, idx) {
                 return {
                     text: cf.title + ' - [' + cf.tablemask + ']',
-                    value: cf.id
+                    value: idx
                 }
             })
         }
@@ -88,7 +88,7 @@ var app = new Vue({
                 columns: false
             }
             this.selected = {
-                config: '',
+                config: -1,
                 table: ''
             }
             this.done = false
@@ -112,23 +112,20 @@ var app = new Vue({
         },
 
         setDetails: function() {
-            this.configs.forEach(function(cf) {
-                if (cf.id == this.selected.config) {
-                    this.title = cf.title
-                    this.description = cf.description
-                    this.selected.table = cf.tablename
-                    Vue.nextTick(this.fetchColumns)
-                    if (cf.columnmaps.length>0) {
-                        this.hasColumnMapping = true
-                        console.log(cf.columnmaps.split('|||'))
-                        cf.columnmaps.split('|||').forEach(function(map) {
-                            var a = map.split('==>')[0]
-                            var b = map.split('==>')[1]
-                            Vue.set(this.columnMap, a, b)
-                        }.bind(this))
-                    }
-                }
-            }.bind(this))
+
+            var cf = this.configs[this.selected.config]
+            this.title = cf.title
+            this.description = cf.description
+            this.selected.table = cf.tablename
+            Vue.nextTick(this.fetchColumns)
+            if (cf.columnmaps.length>0) {
+                this.hasColumnMapping = true
+                cf.columnmaps.split('|||').forEach(function(map) {
+                    var a = map.split('==>')[0]
+                    var b = map.split('==>')[1]
+                    Vue.set(this.columnMap, a, b)
+                }.bind(this))
+            }
         },
 
         // fetch all columns in selected table
@@ -188,14 +185,14 @@ var app = new Vue({
                 columnmaps: this.columnMapFormatted
             })
 
-            axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Insert Uploader Config', {
-                auth_token: localStorage.colAuthToken,
-                title: this.title,
-                description: this.description,
-                tablename: this.selected.table,
-                tablemask: this.mask,
-                columnmaps: this.columnMapFormatted
-            }).then(this.handleMasks)
+            // axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Insert Uploader Config', {
+            //     auth_token: localStorage.colAuthToken,
+            //     title: this.title,
+            //     description: this.description,
+            //     tablename: this.selected.table,
+            //     tablemask: this.mask,
+            //     columnmaps: this.columnMapFormatted
+            // }).then(this.handleMasks)
         },
 
         openUploader: function(mask) {
