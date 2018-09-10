@@ -7,7 +7,9 @@ var app = new Vue({
     // vars
     data: {
         stepper: 1,
-        tables: [],
+        configs: [],
+
+
         columns: [],
         masks: [],
         mask: '',
@@ -15,7 +17,7 @@ var app = new Vue({
         columnMap: {},
 
         isLoading: {
-            tables: false,
+            configs: false,
             masks: false,
             columns: false
         },
@@ -42,6 +44,16 @@ var app = new Vue({
                     return col + '==>' + this.columnMap[col]
                 }.bind(this)).join('|||')
             }
+        },
+
+        // configs formatted for <select>
+        configsFormatted: function() {
+            return this.configs.map(function(cf) {
+                return {
+                    text: cf.title + ' - [' + cf.tablemask + ']',
+                    value: cf.id
+                }
+            })
         }
     },
 
@@ -54,7 +66,7 @@ var app = new Vue({
 
     // start here
     mounted: function() {
-        this.fetchTables()
+        this.fetchConfigs()
         this.fetchColumns()
     },
 
@@ -63,7 +75,7 @@ var app = new Vue({
 
         reset: function() {
             this.stepper = 1,
-            this.tables = [],
+            this.configs = [],
             this.columns = [],
             this.masks = [],
             this.mask = '',
@@ -84,17 +96,17 @@ var app = new Vue({
         },
 
         // fetch all tables in [CSVUploadApp]
-        fetchTables: function() {
-            if (this.isLoading.tables===false) {
-                this.isLoading.tables = true
-                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get All Tables', {
+        fetchConfigs: function() {
+            if (this.isLoading.configs===false) {
+                this.isLoading.configs = true
+                axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Get All Uploader Configs', {
                     auth_token: localStorage.colAuthToken
-                }).then(this.handleTables)
+                }).then(this.handleConfigs)
             }
         },
-        handleTables: function(res) {
-            this.tables = res.data[0].map(function(tb) { return tb.TABLE_NAME })
-            this.isLoading.tables = false
+        handleConfigs: function(res) {
+            this.configs = res.data[0]
+            this.isLoading.configs = false
         },
 
         // fetch all columns in selected table

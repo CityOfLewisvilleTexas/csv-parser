@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Uploader Setup</title>
+    <title>Uploader Editor</title>
     <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,14 +25,14 @@
             <v-container>
                 <v-layout>
                     <v-flex>
-                        <h1 class="white--text display-1 mb-3">Spreadsheet Uploader Wizard</h1>
+                        <h1 class="white--text display-1 mb-3">Spreadsheet Uploader Editor</h1>
                         <v-stepper v-model="stepper" light v-if="!done">
                             <v-stepper-header>
-                                <v-stepper-step :complete="stepper > 1" step="1">Choose a table</v-stepper-step>
+                                <v-stepper-step :complete="stepper > 1" step="1">Choose an uploader</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step :complete="stepper > 2" step="2">Set table mask</v-stepper-step>
+                                <v-stepper-step :complete="stepper > 2" step="2">Step 2</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step step="3">Choose options</v-stepper-step>
+                                <v-stepper-step step="3">Step 3</v-stepper-step>
                                 <v-divider></v-divider>
                                 <v-divider></v-divider>
                                 <v-divider></v-divider>
@@ -44,21 +44,21 @@
                                 <v-stepper-content step="1" class="grey lighten-4">
                                     <v-layout row wrap>
                                         <v-flex xs12>
-                                            <p class="subheading">Choose a table to upload to. If it doesn't appear, create it at <code class="white">[AX1VSQL8].[CSVUploadApp]</code></p>
+                                            <p class="subheading">Choose an uploader to edit. If it doesn't appear, check that it exists at <code class="white">[AX1VSQL8].[CSVUploadApp].[Uploader_Configs]</code></p>
                                         </v-flex>
                                         <v-flex xs12 lg5 mb-3>
                                             <v-select
-                                                v-model="selected.table"
-                                                :items="tables"
-                                                label="Tables..."
-                                                :loading="isLoading.tables"
-                                                :disabled="isLoading.tables"
+                                                v-model="selected.config"
+                                                :items="configsFormatted"
+                                                label="Configs..."
+                                                :loading="isLoading.configs"
+                                                :disabled="isLoading.configs"
                                                 hide-details
                                                 solo>
                                             </v-select>
                                         </v-flex>
                                     </v-layout>
-                                    <v-btn color="primary" @click="stepper = 2" :disabled="isLoading.tables || !selected.table">
+                                    <v-btn color="primary" @click="stepper = 2" :disabled="isLoading.configs || !selected.config">
                                         Continue
                                     </v-btn>
                                 </v-stepper-content>
