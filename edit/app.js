@@ -22,7 +22,8 @@ var app = new Vue({
             columns: false
         },
         selected: {
-            table: ''
+            table: '',
+            config: ''
         },
         done: false,
         title: '',
@@ -87,7 +88,8 @@ var app = new Vue({
                 columns: false
             }
             this.selected = {
-                config: ''
+                config: '',
+                table: ''
             }
             this.done = false
             this.title = ''
@@ -114,9 +116,16 @@ var app = new Vue({
                 if (cf.id == this.selected.config) {
                     this.title = cf.title
                     this.description = cf.description
-                    this.tablename = cf.tablename
+                    this.selected.table = cf.tablename
+                    Vue.nextTick(this.fetchColumns)
                     if (cf.columnmaps.length>0) {
                         this.hasColumnMapping = true
+                        console.log(cf.columnmaps.split('|||'))
+                        cf.columnmaps.split('|||').forEach(function(map) {
+                            var a = map.split('==>')[0]
+                            var b = map.split('==>')[1]
+                            Vue.set(this.columnMap, a, b)
+                        }.bind(this))
                     }
                 }
             }.bind(this))
@@ -136,7 +145,6 @@ var app = new Vue({
         },
         handleColumns: function(res) {
             this.columns = res.data[0].map(function(col) { return col.COLUMN_NAME })
-            this.columns.forEach(function(c) { Vue.set(this.columnMap, c, '') }.bind(this))
             this.isLoading.columns = false
         },
 
