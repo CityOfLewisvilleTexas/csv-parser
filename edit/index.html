@@ -30,7 +30,7 @@
                             <v-stepper-header>
                                 <v-stepper-step :complete="stepper > 1" step="1">Choose an uploader</v-stepper-step>
                                 <v-divider></v-divider>
-                                <v-stepper-step :complete="stepper > 2" step="2">Step 2</v-stepper-step>
+                                <v-stepper-step :complete="stepper > 2" step="2">Configure</v-stepper-step>
                                 <v-divider></v-divider>
                                 <v-stepper-step step="3">Step 3</v-stepper-step>
                                 <v-divider></v-divider>
@@ -58,12 +58,12 @@
                                             </v-select>
                                         </v-flex>
                                     </v-layout>
-                                    <v-btn color="primary" @click="stepper = 2" :disabled="isLoading.configs || !selected.config">
+                                    <v-btn color="primary" @click="stepper = 2; setDetails()" :disabled="isLoading.configs || !selected.config">
                                         Continue
                                     </v-btn>
                                 </v-stepper-content>
                                 <!--  mask the table -->
-                                <v-stepper-content step="2" class="grey lighten-4">
+                                <v-stepper-content step="5" class="grey lighten-4">
                                     <v-layout row wrap>
                                         <v-flex xs12>
                                             <p class="subheading">Choose a mask for your table. Must be unique.</p>
@@ -91,7 +91,7 @@
                                     </v-btn>
                                 </v-stepper-content>
                                 <!-- general settings for the uploader -->
-                                <v-stepper-content step="3" class="grey lighten-4">
+                                <v-stepper-content step="2" class="grey lighten-4">
                                     <v-card class="grey lighten-2">
                                         <v-card-text>
                                             <v-text-field

@@ -82,17 +82,17 @@ var app = new Vue({
             this.hasColumnMapping = false,
             this.columnMap = {},
             this.isLoading = {
-                tables: false,
+                configs: false,
                 masks: false,
                 columns: false
             }
             this.selected = {
-                table: ''
+                config: ''
             }
             this.done = false
             this.title = ''
             this.description = ''
-            this.fetchTables()
+            Vue.nextTick(this.fetchConfigs)
         },
 
         // fetch all tables in [CSVUploadApp]
@@ -107,6 +107,19 @@ var app = new Vue({
         handleConfigs: function(res) {
             this.configs = res.data[0]
             this.isLoading.configs = false
+        },
+
+        setDetails: function() {
+            this.configs.forEach(function(cf) {
+                if (cf.id == this.selected.config) {
+                    this.title = cf.title
+                    this.description = cf.description
+                    this.tablename = cf.tablename
+                    if (cf.columnmaps.length>0) {
+                        this.hasColumnMapping = true
+                    }
+                }
+            }.bind(this))
         },
 
         // fetch all columns in selected table
