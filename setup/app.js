@@ -169,8 +169,8 @@ var app = new Vue({
             window.open('../?mask=' + mask)
         },
 
-        newTab: function(url) {
-            window.open(url)
+        relocate: function(url) {
+            location.href = url
         }
     }
 })
