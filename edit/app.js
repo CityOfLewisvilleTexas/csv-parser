@@ -117,6 +117,7 @@ var app = new Vue({
             this.title = cf.title
             this.description = cf.description
             this.selected.table = cf.tablename
+            this.mask = cf.tablemask
             Vue.nextTick(this.fetchColumns)
             if (cf.columnmaps.length>0) {
                 this.hasColumnMapping = true
