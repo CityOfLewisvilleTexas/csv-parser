@@ -141,7 +141,7 @@ var app = new Vue({
                     this.filetype = 'csv'
                     this.csvToJson()
                 }
-                else if (this.filename.slice(-4) == 'xlsx') {
+                else if (this.filename.slice(-4) == 'xlsx' || this.filename.slice(-3) == 'xls') {
                     this.filetype = 'xlsx'
                     this.excelToJson(this.$refs.myFiles.files[0])
                 }
@@ -258,6 +258,11 @@ var app = new Vue({
         },
         handleSubmit: function(res) {
             console.log(res.data[0])
+            if (res.data[0].length > 0) {
+                alert('Successful submission!')
+                this.reset()
+                this.stepper = 1
+            }
         }
     }
 })

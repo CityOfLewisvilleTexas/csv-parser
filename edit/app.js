@@ -15,6 +15,7 @@ var app = new Vue({
         mask: '',
         hasColumnMapping: false,
         columnMap: {},
+        id: -1,
 
         isLoading: {
             configs: false,
@@ -118,6 +119,7 @@ var app = new Vue({
             this.description = cf.description
             this.selected.table = cf.tablename
             this.mask = cf.tablemask
+            this.id = cf.id
             Vue.nextTick(this.fetchColumns)
             if (cf.columnmaps.length>0) {
                 this.hasColumnMapping = true
@@ -177,23 +179,13 @@ var app = new Vue({
         },
 
         submit: function() {
-            console.log({
+            axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Update Uploader Config', {
                 auth_token: localStorage.colAuthToken,
+                id: this.id,
                 title: this.title,
                 description: this.description,
-                tablename: this.selected.table,
-                tablemask: this.mask,
                 columnmaps: this.columnMapFormatted
-            })
-
-            // axios.post('https://ax1vnode1.cityoflewisville.com/v2?webservice=Spreadsheet Uploader/Insert Uploader Config', {
-            //     auth_token: localStorage.colAuthToken,
-            //     title: this.title,
-            //     description: this.description,
-            //     tablename: this.selected.table,
-            //     tablemask: this.mask,
-            //     columnmaps: this.columnMapFormatted
-            // }).then(this.handleMasks)
+            }).then(this.handleConfigs)
         },
 
         openUploader: function(mask) {
