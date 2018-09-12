@@ -38,7 +38,6 @@
                                     <v-icon>attach_file</v-icon>
                                     &nbsp; Select Spreadsheet
                                 </v-btn>
-                                <a target="_blank" href="https://drive.google.com/uc?export=download&id=1qnmGQqJdC6H_h1i0Jn31x-1fKchUt_Nb">test spreadsheet</a>
                                 <input style="display: none" type="file" id="csvFileInput" accept=".xls,.xlsx" ref="myFiles" @change="updateFileName" />
                             </v-flex>
                             <v-alert
@@ -77,7 +76,7 @@
                                         disable-initial-sort
                                         :rows-per-page-items="[10,25,50,100]">
                                         <template slot="items" slot-scope="props">
-                                            <td v-for="(prop, i) in props.item">{{ prop }}</td>
+                                            <td v-for="(prop, i) in props.item">{{ renderQuote(prop) }}</td>
                                         </template>
                                     </v-data-table>
                                 </v-card>

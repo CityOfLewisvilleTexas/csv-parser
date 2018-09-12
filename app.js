@@ -50,7 +50,8 @@ var app = new Vue({
                     // only take columns from table
                     for (var prop in this.columnMap) {
                         if (this.columnMap.hasOwnProperty(prop)) {
-                            obj[prop] = row[this.columnMap[prop]]
+                            if (isNaN(row[this.columnMap[prop]])) obj[prop] = row[this.columnMap[prop]].replace('|||')
+                            else obj[prop] = row[this.columnMap[prop]]
                         }
                     }
                     return obj
@@ -59,7 +60,8 @@ var app = new Vue({
                 var obj = {}
                 for (var prop in this.columnMap) {
                     if (this.columnMap.hasOwnProperty(prop)) {
-                        obj[prop] = row[this.columnMap[prop]]
+                        if (isNaN(row[this.columnMap[prop]])) obj[prop] = row[this.columnMap[prop]].replace('|||')
+                        else obj[prop] = row[this.columnMap[prop]]
                     }
                 }
                 return obj
@@ -73,6 +75,11 @@ var app = new Vue({
 
     // functions
     methods: {
+
+        renderQuote: function(prop) {
+            if (isNaN(prop)) return prop.replace(/\|\|\|/g, '\'')
+            else return prop
+        },
 
         // fetch the uploader config from the mask in the url
         fetchConfig: function() {
