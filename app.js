@@ -33,6 +33,8 @@ var app = new Vue({
     },
 
     computed: {
+        // table columns that have been matched up with spreadsheet headers.
+        // formatted for use with the Vuetify data table (display text and value)
         verifiedHeadersFormatted: function() {
             return this.columns.map(function(c) {
                 return {
@@ -42,6 +44,8 @@ var app = new Vue({
             }.bind(this))
         },
 
+        // spreadsheet formatted into an array of objects
+        // formatted for use with the Vuetify data table (properties must match headers above)
         fileAsArrayFormatted: function() {
             if (this.filetype == 'csv') {
                 return this.fileAsArray.slice(1).map(function(row) {
@@ -76,6 +80,7 @@ var app = new Vue({
     // functions
     methods: {
 
+        // replaces ||| with ' for displaying to user
         renderQuote: function(prop) {
             if (isNaN(prop)) return prop.replace(/\|\|\|/g, '\'')
             else return prop
@@ -93,6 +98,8 @@ var app = new Vue({
                     .then(this.handleConfig)
             }
         },
+
+        // stores the uploader config locally and "decrypts" the column map string
         handleConfig: function(res) {
             if (res.data[0].length===0) {
                 alert('No configs found for this mask.')
@@ -104,6 +111,7 @@ var app = new Vue({
                     Vue.set(this.columnMap, map.split('==>')[0], map.split('==>')[1])
                 }.bind(this))
             }
+            // now that we know which config we're using, we can fetch the columns for it
             this.fetchColumns()
         },
 
@@ -117,12 +125,13 @@ var app = new Vue({
                 }).then(this.handleColumns)
             }
         },
+        // save columns locally
         handleColumns: function(res) {
             this.columns = res.data[0].map(function(col) { return col.COLUMN_NAME })
             this.isLoading.columns = false
         },
 
-
+        // Vuetify doesn't have a file picker, so we simulate a click on the hidden file picker
         pickFile: function() {
             this.$refs.myFiles.click()
         },
